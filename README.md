@@ -50,13 +50,13 @@ You can install Postman via this website: https://www.postman.com/downloads/
 ## Mandatory Checklists (Publisher)
 -   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
 -   **STAGE 1: Implement models and repositories**
-    -   [ ] Commit: `Create Subscriber model struct.`
-    -   [ ] Commit: `Create Notification model struct.`
-    -   [ ] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
-    -   [ ] Commit: `Implement add function in Subscriber repository.`
-    -   [ ] Commit: `Implement list_all function in Subscriber repository.`
-    -   [ ] Commit: `Implement delete function in Subscriber repository.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
+    -   [x] Commit: `Create Subscriber model struct.`
+    -   [x] Commit: `Create Notification model struct.`
+    -   [x] Commit: `Create Subscriber database and Subscriber repository struct skeleton.`
+    -   [x] Commit: `Implement add function in Subscriber repository.`
+    -   [x] Commit: `Implement list_all function in Subscriber repository.`
+    -   [x] Commit: `Implement delete function in Subscriber repository.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-1" questions in this README.
 -   **STAGE 2: Implement services and controllers**
     -   [ ] Commit: `Create Notification service struct skeleton.`
     -   [ ] Commit: `Implement subscribe function in Notification service.`
@@ -77,6 +77,17 @@ This is the place for you to write reflections:
 ### Mandatory (Publisher) Reflections
 
 #### Reflection Publisher-1
+1. In the Observer pattern diagram explained by the Head First Design Pattern book, Subscriber is defined as an interface. Explain based on your understanding of Observer design patterns, do we still need an interface (or trait in Rust) in this BambangShop case, or a single Model struct is enough?
+    
+    Pada observer pattern, penggunaan interface (trait pada rust) bergantung pada keragaman dan jenis observer yang terlibat. Lebih tepatnya, penggunaan interface/trait dilakukan jika objek observer terdiri dari beragam tipe, contohnya pada kasus Dog, Cat, dan Mouse. Pada kasus tersebut, interface/trait dibutuhkan karena terdapat kebutuhan untuk menangani berbagai tipe atau jenis subscriber yang masing-masing memiliki behavior yang berbeda. Untuk kasus BambangShop, karena semua subscriber dianggap memiliki behavior yang sama, maka penggunaan interface/trait tidak diperlukan.
+
+2. id in Product and url in Subscriber is intended to be unique. Explain based on your understanding, is using Vec (list) sufficient or using DashMap (map/dictionary) like we currently use is necessary for this case?
+    
+    DashMap lebih cocok untuk digunakan pada kasus ini dibanding dengan menggunakan Vec (list). Dengan menggunakan DashMap, kita bisa menggunakan id pada product atau url pada subscriber sebagai key karena kedua variabel tersebut dijamin unik. Dengan demikian, kita hanya perlu membuat 1 DashMap dibanding harus menggunakan 2 Vec terpisah masing-masing untuk url dan subscriber. Selain itu, operasi pengaksesan data dengan menggunakan key pada DashMap juga lebih efisien, sehingga tak hanya memberikan kemudahan dalam pengelolaan data tetapi juga memberikan keuntungan dalam hal efisiensi.
+
+3. When programming using Rust, we are enforced by rigorous compiler constraints to make a thread-safe program. In the case of the List of Subscribers (SUBSCRIBERS) static variable, we used the DashMap external library for thread safe HashMap. Explain based on your understanding of design patterns, do we still need DashMap or we can implement Singleton pattern instead?
+
+    DashMap tetap dibutuhkan untuk memastikan bahwa data yang diakses oleh thread yang berbeda tetap konsisten. Hal ini karena DashMap sendiri merupakan HashMap yang bersifat thread-safe dan mendukung operasi concurrent pada pasangan key-value, yang berarti DashMap memungkinkan akses dan modifikasi data secara simultan oleh berbagai thread dengan tetap memperhatikan keamanan data. Walaupun singleton pattern menyediakan cara untuk mengakses satu instance dari kelas, implementasi dasarnya tidak secara otomatis thread-safe. Oleh karena itu, penggunaan singleton pattern dengan penerapan seperti menggunakan lazy initialization bersamaan dengan DashMap dapat menjadi solusi untuk memastikan bahwa data Subscribers tetap aman dalam multithreaded environment dan hanya terdapat satu instance subscribers untuk diakses banyak thread.
 
 #### Reflection Publisher-2
 
