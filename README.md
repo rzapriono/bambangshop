@@ -48,7 +48,7 @@ You can install Postman via this website: https://www.postman.com/downloads/
     (You might want to use `cargo check` if you only need to verify your work without running the app.)
 
 ## Mandatory Checklists (Publisher)
--   [ ] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
+-   [x] Clone https://gitlab.com/ichlaffterlalu/bambangshop to a new repository.
 -   **STAGE 1: Implement models and repositories**
     -   [x] Commit: `Create Subscriber model struct.`
     -   [x] Commit: `Create Notification model struct.`
@@ -65,11 +65,11 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [x] Commit: `Implement unsubscribe function in Notification controller.`
     -   [x] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
-    -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
-    -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
-    -   [ ] Commit: `Implement publish function in Program service and Program controller.`
-    -   [ ] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [x] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
+    -   [x] Commit: `Implement notify function in Notification service to notify each Subscriber.`
+    -   [x] Commit: `Implement publish function in Program service and Program controller.`
+    -   [x] Commit: `Edit Product service methods to call notify after create/delete.`
+    -   [x] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -104,3 +104,14 @@ This is the place for you to write reflections:
     Sebelumnya, saya sudah pernah menggunakan Postman pada mata kuliah Pemrograman Berbasis Platform (PBP) untuk mengirimkan http request seperti GET, POST, DELETE dengan suatu data pada body atau parameter ke endpoint tertentu. Menurut saya, Postman sangat membantu dalam melakukan testing API, karena kita bisa mengirimkan request ke server untuk suatu endpoint dan mengecek data yang diterima pada endpoint tersebut serta responsenya tanpa harus membuat frontend terlebih dahulu, sehingga kita bisa fokus pada pengembangan backend dan fungsionalitas program.
 
 #### Reflection Publisher-3
+1. Observer Pattern has two variations: Push model (publisher pushes data to subscribers) and Pull model (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?
+
+    Pada kasus tutorial ini, observer pattern digunakan dengan pendekatan push model untuk sistem notifikasi dimana subscriber akan menerima notifikasi dari publisher tanpa perlu meminta notifikasi tersebut. Publisher akan secara aktif mengirimkan notifikasi ke subscriber setiap terjadi proses add, delete, dan publish product. Ketika proses-proses tersebut terjadi, NotificationService akan secara iteratif mengirimkan notifikasi kepada semua subscriber yang telah berlangganan pada tipe produk terkait melalui fungsi notify dengan mengiterasikan pengiriman data ke setiap subscribernya.
+
+2. What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)
+
+    Keuntungan dari menggunakan pull model dalam kasus  subscriber pada tutorial ini adalah fleksibilitas pemilihan data karena subscriber dapat mengambil data yang relevan kapanpun diinginkan. Selain itu, pull model memberikan keleluasaan bagi subscriber untuk mengakses informasi tanpa diketahui detail datanya oleh publisher. Namun, kekurangannya adalah subscriber harus mengetahui data yang diinginkan untuk diambil serta waktu pengambilannya. Hal ini dapat meningkatkan kompleksitas karena subscriber harus mengimplementasikan logic untuk memilih data yang diinginkan dan dapat menyebabkan redundansi jika data yang sama diambil berkali-kali. 
+
+3. Explain what will happen to the program if we decide to not use multi-threading in the notification process.
+
+    Saat subscriber dari publisher terus bertambah, antrian notifikasi akan semakin memanjang karena notifikasi diproses satu per satu secara berurutan tanpa penggunaan multi-threading sehingga dapat memperlambat kinerja aplikasi dan menyebabkan bottleneck pada sistem karena tingginya beban yang harus ditangani. Selain itu, hal tersebut akan mengakibatkan waktu yang dibutuhkan untuk mengirimkan notifikasi ke semua subscriber menjadi lebih lama dan jika terdapat subscriber yang lambat dalam menerima notifikasi, maka notifikasi akan tertunda untuk subscriber selanjutnya.
